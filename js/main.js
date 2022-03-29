@@ -7,6 +7,7 @@ const btn = document.querySelector(".js_btn");
 const textResult = document.querySelector(".js_result");
 const balanceResult = document.querySelector(".js_balance");
 const inputBet = document.querySelector(".js_bet");
+const btnReset = document.querySelector(".js_resetbutton");
 
 //2. Declarar funciones y eventos
 
@@ -37,9 +38,21 @@ function resultBalance(win) {
   }
 }
 
+function btnActive() {
+  const reset = btnReset.innerHTML;
+
+  if (balance <= 200) {
+    reset.classList.add("hidden");
+  } else {
+    reset.classList.remove("hidden");
+    textResult.classList.add("hidden");
+  }
+}
+
 function handleClickBtn(event) {
   event.preventDefault();
   winOrLose();
+  btnActive();
 }
 
 btn.addEventListener("click", handleClickBtn);
