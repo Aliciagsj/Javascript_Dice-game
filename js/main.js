@@ -18,41 +18,58 @@ function getRandomNumber(max) {
 function winOrLose() {
   const numAleat = getRandomNumber(6);
   const numSelect = parseInt(selectElement.value);
+  const balance = parseInt(balanceResult.innerHTML);
+  if (
+    inputBet.value !== "" &&
+    parseInt(inputBet.value) <= balance &&
+    numSelect !== 0
+  ) {
+    const bet = parseInt(inputBet.value);
 
-  if (numAleat === numSelect) {
-    textResult.innerHTML = "Has ganado el doble de lo apostado :)";
-    resultBalance(true);
+    if (numAleat === numSelect) {
+      textResult.innerHTML = "Has ganado el doble de lo apostado :)";
+      balanceResult.innerHTML = balance + bet * 2;
+    } else {
+      textResult.innerHTML = "Has perdido lo apostado :(";
+      balanceResult.innerHTML = balance - bet;
+    }
+
+    comprobarFinJuego();
   } else {
-    textResult.innerHTML = "Has perdido lo apostado :(";
-    resultBalance(false);
+    textResult.innerHTML = "Introduce datos correctos";
   }
 }
 
-function resultBalance(win) {
-  const bet = parseInt(inputBet.value);
+function comprobarFinJuego() {
+  const balance = parseInt(balanceResult.innerHTML);
 
-  if (win) {
-    balanceResult.innerHTML = parseInt(balanceResult.innerHTML) + bet * 2;
-  } else {
-    balanceResult.innerHTML = parseInt(balanceResult.innerHTML) - bet;
+  if (balance <= 0 || balance >= 200) {
+    btnReset.classList.remove("hidden");
+    btn.classList.add("hidden");
+
+    if (balance >= 200) {
+      textResult.innerHTML = `Has ganado`;
+    } else {
+      textResult.innerHTML = `Ha ganado la maquina`;
+    }
   }
 }
 
-function btnActive() {
-  const reset = btnReset.innerHTML;
+function reiniciarJuego(event) {
+  event.preventDefault();
 
-  if (balance <= 200) {
-    reset.classList.add("hidden");
-  } else {
-    reset.classList.remove("hidden");
-    textResult.classList.add("hidden");
-  }
+  textResult.innerHTML = `Vamos a jugar`;
+  balanceResult.innerHTML = `50`;
+  selectElement.value = "0";
+  inputBet.value = "";
+  btnReset.classList.add("hidden");
+  btn.classList.remove("hidden");
 }
 
 function handleClickBtn(event) {
   event.preventDefault();
   winOrLose();
-  btnActive();
 }
 
 btn.addEventListener("click", handleClickBtn);
+btnReset.addEventListener("click", reiniciarJuego);
