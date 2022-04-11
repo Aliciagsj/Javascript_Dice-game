@@ -58,9 +58,12 @@ function comprobarFinJuego() {
 function reiniciarJuego(event) {
   event.preventDefault();
 
+  const form = document.querySelector(".form");
+
+  form.reset();
   textResult.innerHTML = `Vamos a jugar`;
   balanceResult.innerHTML = `50`;
-  selectElement.value = "0";
+  // selectElement.value = "0";
   inputBet.value = "";
   btnReset.classList.add("hidden");
   btn.classList.remove("hidden");
